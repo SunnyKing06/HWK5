@@ -10,11 +10,11 @@ int main()
 // number of runs that will go for "average of sev. executions"
 // long int  says number of times that will generate a random x & y 
 // pi up to 16 digits
-int precision= 3;
-long digis= pow(10,precision);
+int precision= 4;
+long int digis= pow(10,precision);
 double correct= 3.1415926535897932;
 //correct= correct*digis;
-long int k=1000;
+long int k=99988888;
 int runs=20;
 int p;
 
@@ -37,7 +37,11 @@ for(p=1;p<= runs;p++)
      
      for (i=0;i<=k;i++)
         {
-            // defining random prior to running
+             //defining random prior to running
+             // now random at innermost loop and redefined at each run through the loop
+             // hopefully should be more randomlike
+            #define SEED p*i*4
+            srand(SEED);
             #define dran(u1) ((rand()/(double) RAND_MAX)*(u1))
             x= dran(1);
             y= dran(1);
@@ -57,10 +61,10 @@ for(p=1;p<= runs;p++)
     }
 double runs2= (double)1/(runs);
 pi_average= pi_average*runs2*pow(10,-precision);
-printf("From %d trials and %li samples at each trial, the average pi: is %lf\n",runs, k, pi_average);
-pi_average= floor(pi_average*pow(10,precision))*pow(10,-precision);
-correct= floor(correct*pow(10,precision))*pow(10,-precision);
-printf(" Truncated to %d digits, the pi found is %lf, while the true pi is %lf \n",precision,
+printf("From %d trials and %li samples at each trial, the average pi: is %.16lf\n",runs, k, pi_average);
+pi_average= floorf(pi_average*pow(10,precision))*pow(10,-precision);
+correct= floorf(correct*pow(10,precision))*pow(10,-precision);
+printf(" Truncated to %d digits, the pi found is %lf, while the true pi is %.16lf \n",precision,
 pi_average, correct);
 long int pi_av= pi_average*digis;
 long int corr= correct*digis;
@@ -71,4 +75,3 @@ if(corr==pi_av)
 
 return 0;    
 }
-
