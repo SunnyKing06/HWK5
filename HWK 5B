@@ -10,10 +10,14 @@ int main()
 // number of runs that will go for "average of sev. executions"
 // long int  says number of times that will generate a random x & y 
 // pi up to 16 digits
+int precision= 3;
+long digis= pow(10,precision);
 double correct= 3.1415926535897932;
+//correct= correct*digis;
 long int k=1000;
-int runs=10;
+int runs=20;
 int p;
+
 // result of pi's
 double pi_average;
 for(p=1;p<= runs;p++)
@@ -25,30 +29,46 @@ for(p=1;p<= runs;p++)
      long int i;
      double x,y;
      double pi[runs];
+     // final is final count of 'hits' within circle & make it a double
      double final;
      
      // circle counts how many 'hits' fall within the circle area
      long int circle=0; 
-     // defining random prior to running
-     #define dran(u1) ((rand()/(double) RAND_MAX)*(u1))
+     
      for (i=0;i<=k;i++)
         {
-            x= dran(1.0);
-            y=dran(1.0);
+            // defining random prior to running
+            #define dran(u1) ((rand()/(double) RAND_MAX)*(u1))
+            x= dran(1);
+            y= dran(1);
             if( x*x + y*y<=1)
             {
               // randoms fall within circle area and thus counts
              circle++;  
             }
         }    
+     double kk= (double)1/k;
      final= circle*4;
-     pi[p]= final/(double)k;
+     // multiplied by digis to make it whole up to digits one wants to see
+     pi[p]= (final*kk*digis);
      pi_average=pi_average+pi[p];
      //printf("The pi due to %li approximations is: %lf",k,pi);  
-        printf(" pi # %d is: %lf \n", p, pi[p]);
+        //printf(" pi from trial #%d is: %lf \n", p, pi[p]);
     }
-pi_average= pi_average/10;
-printf("From %d trials and %li samples at each trial the average pi is %lf",runs, k, pi_average);
+double runs2= (double)1/(runs);
+pi_average= pi_average*runs2*pow(10,-precision);
+printf("From %d trials and %li samples at each trial, the average pi: is %lf\n",runs, k, pi_average);
+pi_average= floor(pi_average*pow(10,precision))*pow(10,-precision);
+correct= floor(correct*pow(10,precision))*pow(10,-precision);
+printf(" Truncated to %d digits, the pi found is %lf, while the true pi is %lf \n",precision,
+pi_average, correct);
+long int pi_av= pi_average*digis;
+long int corr= correct*digis;
+if(corr==pi_av)
+{
+    printf("Correct up to %d digits",precision);
+}
+
 return 0;    
 }
 
