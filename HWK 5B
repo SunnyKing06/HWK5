@@ -10,12 +10,13 @@ int main()
 // number of runs that will go for "average of sev. executions"
 // long int  says number of times that will generate a random x & y 
 // pi up to 16 digits
-int precision= 4;
+int precision= 5; // can change this 
 long int digis= pow(10,precision);
 double correct= 3.1415926535897932;
 //correct= correct*digis;
-long int k=99988888;
-int runs=20;
+long int k=5559375; // Monte Carlo sample size
+int runs=20; // How many times to run the MC simulation to get a PI;
+// will average the pi's out
 int p;
 
 // result of pi's
@@ -59,15 +60,18 @@ for(p=1;p<= runs;p++)
      //printf("The pi due to %li approximations is: %lf",k,pi);  
         //printf(" pi from trial #%d is: %lf \n", p, pi[p]);
     }
+// the following multiplies the average pi along with the true pi by the number of significant
+// digits to compare the results and see if they are close enough
 double runs2= (double)1/(runs);
 pi_average= pi_average*runs2*pow(10,-precision);
 printf("From %d trials and %li samples at each trial, the average pi: is %.16lf\n",runs, k, pi_average);
 pi_average= floorf(pi_average*pow(10,precision))*pow(10,-precision);
 correct= floorf(correct*pow(10,precision))*pow(10,-precision);
-printf(" Truncated to %d digits, the pi found is %lf, while the true pi is %.16lf \n",precision,
+printf(" Truncated to %d digits, the pi found is %lf, while the true pi is %lf \n",precision,
 pi_average, correct);
 long int pi_av= pi_average*digis;
 long int corr= correct*digis;
+// Turns both the computed and true pi to intergers up the precision wanted to see if correct
 if(corr==pi_av)
 {
     printf("Correct up to %d digits",precision);
